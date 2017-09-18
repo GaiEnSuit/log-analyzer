@@ -2,17 +2,18 @@
 
 import psycopg2
 
-# Create psycopg2 objects
+# Create psycopg2 connection and curor objects
 conn = psycopg2.connect(dbname="news")
 cur = conn.cursor()
 
 # Query for most popular articles
 cur.execute('''
-    SELECT path, COUNT(path)
+    SELECT articles.title, COUNT(title) AS Views
     FROM log
-    WHERE status='200 OK' AND NOT path='/'
-    GROUP BY path
-    ORDER BY COUNT(path) DESC
+    LEFT JOIN articles ON log.path LIKE '%' || articles.slug || '%'
+    WHERE status='200 OK' AND title IS NOT NULL
+    GROUP BY articles.title
+    ORDER BY COUNT(title) DESC
     LIMIT 3;
 ''')
 
