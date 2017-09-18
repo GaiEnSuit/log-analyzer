@@ -33,7 +33,11 @@ topAuthors = cur.fetchall()
 
 # Query for days where more than 1% of request resulted in an error
 cur.execute('''
-    SELECT CAST(time AS DATE), CAST(SUM(CAST(log.status!='200 OK' AS INT)) * 100 AS FLOAT / SUM(CAST(log.status IS NOT NULL AS INT)) FROM log GROUP BY CAST(time AS DATE);
+    SELECT CAST(time AS DATE), (CAST(SUM(CAST(log.status!='200 OK' AS INT)) * 100 AS FLOAT(1)) / SUM(CAST(log.status IS NOT NULL AS INT))) AS Percentage
+    FROM log
+    GROUP BY CAST(time AS DATE)
+    HAVING SUM(CAST(log.status!='200 OK' AS INT))*100/SUM(CAST(log.status IS NOT NULL AS INT))>1
+    ORDER BY Percentage DESC;
 ''')
 
 badDays = cur.fetchall()
