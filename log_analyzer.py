@@ -48,13 +48,13 @@ badDays = cur.fetchall()
 class Generator:
     def topArticleGenerator (self, topArticles):
         for i in topArticles:
-            f.write('"' + str(i[0]) + '"' + ' - ' + str(i[1]) + '\r\n')
+            f.write('"' + str(i[0]) + '"' + ' - ' + str(i[1]) + ' Views\r\n')
     def topAuthorGenerator (self, topAuthors):
         for i in topAuthors:
-            f.write(str(i[0]) + ' - ' + str(i[1]) + '\r\n')
+            f.write(str(i[0]) + ' - ' + str(i[1]) + ' Views\r\n')
     def badDaysGenerator (self, badDays):
         for i in badDays:
-            f.write(str(i[0].strftime('%B %d, %Y')) + ' - ' + str(round(i[1])) + '%' + '\r\n')
+            f.write(str(i[0].strftime('%B %d, %Y')) + ' - ' + str(round(i[1], 2)) + '%' + ' Errors\r\n')
 
 def newLine(text):
     text.write('\r\n')
