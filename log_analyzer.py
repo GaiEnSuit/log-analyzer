@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import psycopg2
+import datetime
 
 # Create psycopg2 connection and curor objects
 conn = psycopg2.connect(dbname="news")
@@ -43,7 +44,33 @@ cur.execute('''
 
 badDays = cur.fetchall()
 
+# Class that contains the functions for the log output
+class Generator:
+    def topArticleGenerator (self, topArticles):
+        for i in topArticles:
+            f.write('"' + str(i[0]) + '"' + ' - ' + str(i[1]) + '\r\n')
+    def topAuthorGenerator (self, topAuthors):
+        for i in topAuthors:
+            f.write(str(i[0]) + ' - ' + str(i[1]) + '\r\n')
+    def badDaysGenerator (self, badDays):
+        for i in badDays:
+            f.write(str(i[0].strftime('%B %d, %Y')) + ' - ' + str(round(i[1])) + '%' + '\r\n')
+
+def newLine(text):
+    text.write('\r\n')
+
+# Creates an instance of Generator
+g = Generator()
+
 # Outputs File with results
-f = open("analysis.txt","w+")
-f.write(str(topArticles) + str(topAuthors) + str(badDays))
+f = open("analysis.txt","w")
+f.write('Three Most Popular Articles\r\n')
+g.topArticleGenerator(topArticles)
+newLine(f)
+f.write('Most Popular Authors\r\n')
+g.topAuthorGenerator(topAuthors)
+newLine(f)
+f.write('Days With More Than 1 Percent Errors\r\n')
+g.badDaysGenerator(badDays)
+newLine(f)
 f.close()

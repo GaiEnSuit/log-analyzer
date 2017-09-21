@@ -1,1 +1,14 @@
-[('/article/candidate-is-jerk', 338647L), ('/article/bears-love-berries', 253801L), ('/article/bad-things-gone', 170098L)][('Ursula La Multa', 507594L), ('Rudolf von Treppenwitz', 423457L), ('Anonymous Contributor', 170098L), ('Markoff Chaney', 84557L)][(datetime.date(2016, 7, 17), 2.26268624680273)]
+Three Most Popular Articles
+"Candidate is jerk, alleges rival" - 338647
+"Bears love berries, alleges bear" - 253801
+"Bad things gone, say good people" - 170098
+
+Most Popular Authors
+Ursula La Multa - 507594
+Rudolf von Treppenwitz - 423457
+Anonymous Contributor - 170098
+Markoff Chaney - 84557
+
+Days With More Than 1 Percent Errors
+July 17, 2016 - 2.2626862468%
+
