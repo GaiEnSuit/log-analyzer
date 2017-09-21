@@ -35,26 +35,35 @@ topAuthors = cur.fetchall()
 
 # Query for days where more than 1% of request resulted in an error
 cur.execute('''
-    SELECT CAST(time AS DATE), (CAST(SUM(CAST(log.status!='200 OK' AS INT)) * 100 AS FLOAT(1)) / SUM(CAST(log.status IS NOT NULL AS INT))) AS Percentage
+    SELECT CAST(time AS DATE),
+    (CAST(SUM(CAST(log.status!='200 OK' AS INT)) * 100 AS FLOAT(1)) /
+    SUM(CAST(log.status IS NOT NULL AS INT))) AS Percentage
     FROM log
     GROUP BY CAST(time AS DATE)
-    HAVING SUM(CAST(log.status!='200 OK' AS INT))*100/SUM(CAST(log.status IS NOT NULL AS INT))>1
+    HAVING SUM(CAST(log.status!='200 OK' AS INT))*100/
+    SUM(CAST(log.status IS NOT NULL AS INT))>1
     ORDER BY Percentage DESC;
 ''')
 
 badDays = cur.fetchall()
 
 # Class that contains the functions for the log output
+
+
 class Generator:
-    def topArticleGenerator (self, topArticles):
+    def topArticleGenerator(self, topArticles):
         for i in topArticles:
             f.write('"' + str(i[0]) + '"' + ' - ' + str(i[1]) + ' Views\r\n')
-    def topAuthorGenerator (self, topAuthors):
+
+    def topAuthorGenerator(self, topAuthors):
         for i in topAuthors:
             f.write(str(i[0]) + ' - ' + str(i[1]) + ' Views\r\n')
-    def badDaysGenerator (self, badDays):
+
+    def badDaysGenerator(self, badDays):
         for i in badDays:
-            f.write(str(i[0].strftime('%B %d, %Y')) + ' - ' + str(round(i[1], 2)) + '%' + ' Errors\r\n')
+            f.write(str(i[0].strftime('%B %d, %Y')) + ' - ' +
+                    str(round(i[1], 2)) + '%' + ' Errors\r\n')
+
 
 def newLine(text):
     text.write('\r\n')
@@ -63,7 +72,7 @@ def newLine(text):
 g = Generator()
 
 # Outputs File with results
-f = open("analysis.txt","w")
+f = open("analysis.txt", "w")
 f.write('Three Most Popular Articles\r\n')
 g.topArticleGenerator(topArticles)
 newLine(f)
